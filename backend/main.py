@@ -5,6 +5,17 @@ Run with:  uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 """
 from __future__ import annotations
 
+# Windows note: chromadb pulls in onnxruntime as a hard dependency (it builds a
+# default embedding function eagerly at class-definition time, even though we
+# always pass our own local embedding function and never use it). On Windows,
+# onnxruntime's native extension can fail to initialize ("DLL load failed while
+# importing onnxruntime_pybind11_state") if other native-extension packages
+# (DuckDB, PyArrow) have already loaded a conflicting copy of a shared runtime
+# DLL (commonly the OpenMP runtime) into the process first. Importing chromadb
+# here, before any other backend module gets a chance to import duckdb/pyarrow,
+# ensures its native DLLs are the ones that win the Windows DLL search order.
+import chromadb  # noqa: F401
+
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
