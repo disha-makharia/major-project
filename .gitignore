@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Environment
+.env
+
+# DataMind runtime data (keep sample data, ignore generated/runtime artifacts)
+data/chroma/
+data/datamind.duckdb
+data/datamind.duckdb.wal
+data/datasets/_catalog.json
+data/documents/_catalog.json
+generated/charts/*.png
+!generated/charts/.gitkeep
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.log

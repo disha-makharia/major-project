@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataMind</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>DataMind</h1>
+    <p class="tagline">Multi-Agent RAG for Data Analytics</p>
+    <span id="health-badge" class="badge badge-unknown">checking status...</span>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section class="card">
+        <h2>1. Upload Dataset</h2>
+        <p class="hint">CSV, JSON, or Parquet</p>
+        <input type="file" id="dataset-file" accept=".csv,.json,.parquet,.pq" />
+        <button id="upload-dataset-btn">Upload Dataset</button>
+        <div id="dataset-upload-status" class="status-msg"></div>
+      </section>
+
+      <section class="card">
+        <h2>2. Upload Document</h2>
+        <p class="hint">PDF, TXT, or DOCX (company reports)</p>
+        <input type="file" id="document-file" accept=".pdf,.txt,.docx,.md" />
+        <button id="upload-document-btn">Upload Document</button>
+        <div id="document-upload-status" class="status-msg"></div>
+      </section>
+
+      <section class="card">
+        <h2>Available Datasets</h2>
+        <ul id="dataset-list" class="item-list"><li class="empty">None uploaded yet</li></ul>
+      </section>
+
+      <section class="card">
+        <h2>Available Documents</h2>
+        <ul id="document-list" class="item-list"><li class="empty">None uploaded yet</li></ul>
+      </section>
+    </aside>
+
+    <section class="content">
+      <section class="card">
+        <h2>Ask DataMind</h2>
+        <p class="hint">Ask a plain-English business question about your data and documents.</p>
+        <div class="ask-row">
+          <input type="text" id="question-input" placeholder='e.g. "What were the top 5 products by revenue?"' />
+          <button id="ask-btn">Ask</button>
+        </div>
+        <div class="examples">
+          <span>Try:</span>
+          <button class="example-chip" data-q="What were total sales?">What were total sales?</button>
+          <button class="example-chip" data-q="Which product generated the highest revenue?">Top revenue product</button>
+          <button class="example-chip" data-q="What were the monthly sales trends?">Monthly sales trend</button>
+          <button class="example-chip" data-q="Compare sales between regions.">Compare regions</button>
+          <button class="example-chip" data-q="What does the sales report say about the decline in Q3?">Q3 decline (report)</button>
+          <button class="example-chip" data-q="Which region performed best?">Best region</button>
+        </div>
+      </section>
+
+      <section id="results" class="results" hidden>
+        <section class="card answer-card">
+          <h2>Answer</h2>
+          <p id="final-answer"></p>
+          <div id="validation-badge"></div>
+        </section>
+
+        <section class="card">
+          <h2>Key Insights</h2>
+          <ul id="insights-list" class="item-list"></ul>
+        </section>
+
+        <section class="card" id="chart-card" hidden>
+          <h2>Visualization</h2>
+          <img id="chart-img" alt="Generated chart" />
+        </section>
+
+        <section class="card" id="sql-card" hidden>
+          <h2>SQL / Result</h2>
+          <pre id="sql-query"></pre>
+          <div id="sql-table"></div>
+        </section>
+
+        <section class="card" id="docs-card" hidden>
+          <h2>Retrieved Document Context</h2>
+          <div id="docs-list"></div>
+        </section>
+
+        <section class="card" id="errors-card" hidden>
+          <h2>Notes / Warnings</h2>
+          <ul id="errors-list" class="item-list"></ul>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

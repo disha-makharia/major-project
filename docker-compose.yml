@@ -1,0 +1,35 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: datamind-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: datamind-backend
+    depends_on:
+      - ollama
+    ports:
+      - "8000:8000"
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.1}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-all-MiniLM-L6-v2}
+      DATA_DIR: /app/data/datasets
+      DOCUMENT_DIR: /app/data/documents
+      CHROMA_DIR: /app/data/chroma
+      CHART_DIR: /app/generated/charts
+      DUCKDB_PATH: /app/data/datamind.duckdb
+    volumes:
+      - ./data:/app/data
+      - ./generated:/app/generated
+    restart: unless-stopped
+
+volumes:
+  ollama_models:
